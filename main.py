@@ -3,16 +3,40 @@ import aiohttp
 import time
 import os
 import json
+import re
 from bilibili_api import user
 
 # ================= 配置区域 =================
 TARGET_UIDS = [
-    20259914,  # 比如秋叶
-    # 在这里填入你的 UID 列表...
+    17280004,
+    343093731,
+    449342345,
+    245604271,
+    23462279,
+    3546611913329493,
+    219572544,
+    479755595,
+    110353151,
+    14843708,
+    12710942,
+    2115870090,
+    1194488958,
+    78652351,
+    412411578,
+    2008798642,
+    17919458,
+    175873218,
+    20366485,
+    503934057,
+    1450124458,
+    219296,
+    1840885116,
+    1078072406,
+    385085361,
 ]
 
 # 第一层：硬过滤关键词
-KEYWORDS = ["ComfyUI", "Stable Diffusion", "Flux", "Sora", "Runway", "Luma", "AIGC", "LoRA"]
+KEYWORDS = ["ComfyUI", "Stable Diffusion", "Flux", "Sora", "Runway", "Luma", "AIGC", "LoRA", "工作流", "模型"]
 # 记录保存天数 (7天前的记录会被自动清理)
 HISTORY_DAYS = 7 
 # 并发限制 (同时查 3 个，保持礼貌)
@@ -92,18 +116,30 @@ async def filter_content(video_data):
     return True
 
 async def send_notification(content):
-    """【通知层】发送消息"""
-    token = os.environ.get("PUSH_KEY")
-    if not token: return
+    """【通知层】发送飞书消息"""
+    webhook_url = os.environ.get("FEISHU_WEBHOOK")
+    if not webhook_url:
+        print("未配置 FEISHU_WEBHOOK，跳过推送")
+        return
     
-    url = "http://www.pushplus.plus/send"
+    # 飞书富文本消息格式
+    # 注意：你的飞书机器人安全设置里必须包含 "AIGC" 这个关键词，否则发不出去
+    # 转换HTML格式为纯文本格式
+    text_content = content.replace("<h3>", "").replace("</h3>", "\n").replace("<ul>", "").replace("</ul>", "").replace("<li style='margin-bottom:8px'>", "- ").replace("<li>", "- ").replace("</li>", "\n").replace("<b>", "**").replace("</b>", "**")
+    # 处理链接格式：<a href='URL'>标题</a> -> 标题(URL)
+    text_content = re.sub(r"<a href='([^']+)'>([^<]+)</a>", r"\2(\1)", text_content)
+    
+    data = {
+        "msg_type": "text",
+        "content": {
+            "text": "【B站 AIGC 监控日报】\n" + text_content
+        }
+    }
+    
     async with aiohttp.ClientSession() as session:
-        await session.post(url, json={
-            "token": token, 
-            "title": "B站 AIGC 监控日报", 
-            "content": content, 
-            "template": "html"
-        })
+        async with session.post(webhook_url, json=data) as resp:
+            print(f"推送状态: {resp.status}")
+            # 如果是钉钉，代码逻辑几乎一样，只是 json 结构微调
 
 async def main():
     # 1. 初始化并发限制器

@@ -134,6 +134,8 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 [X] 配置自动提交 history.json 机制
 [X] 初始化Git仓库并提交所有文件
 [X] 创建README和GitHub配置指南
+[X] 连接GitHub仓库并推送代码
+[ ] 配置GitHub Secrets (PUSH_KEY)
 [ ] 测试本地运行
 [ ] 测试 GitHub Actions 运行
 [ ] (未来) 接入LLM API实现语义判断

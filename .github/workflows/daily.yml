@@ -26,7 +26,7 @@ jobs:
 
       - name: 运行监控脚本
         env:
-          PUSH_KEY: ${{ secrets.PUSH_KEY }}
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
         run: python main.py
 
       # 【新增】记忆保存步骤

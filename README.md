@@ -8,21 +8,23 @@
 - 🎯 **智能过滤**：关键词硬过滤 + 预留LLM语义判断
 - 💾 **持久化记忆**：使用 `history.json` 记录已处理视频，避免重复推送
 - 🧹 **自动清理**：7天前的记录自动过期删除
-- 📱 **推送通知**：通过 PushPlus 发送HTML格式消息
+- 📱 **推送通知**：通过飞书机器人发送消息
 - 🤖 **自动化运行**：GitHub Actions 每天自动运行
 
 ## 快速开始
 
 ### 1. 配置 GitHub Secrets
 
-在 GitHub 仓库中配置 PushPlus token：
+在 GitHub 仓库中配置飞书机器人 Webhook：
 
 1. 进入你的 GitHub 仓库
 2. 点击 **Settings** → **Secrets and variables** → **Actions**
 3. 点击 **New repository secret**
-4. 名称填写：`PUSH_KEY`
-5. 值填写：你的 PushPlus token（在 [PushPlus官网](http://www.pushplus.plus/) 获取）
+4. 名称填写：`FEISHU_WEBHOOK`
+5. 值填写：你的飞书机器人 Webhook URL（格式：`https://open.feishu.cn/open-apis/bot/v2/hook/...`）
 6. 点击 **Add secret**
+
+**重要提示**：飞书机器人的安全设置中必须包含 "AIGC" 这个关键词，否则消息无法发送。
 
 ### 2. 配置监控的UP主
 
@@ -57,9 +59,9 @@ KEYWORDS = ["ComfyUI", "Stable Diffusion", "Flux", "Sora", "Runway", "Luma", "AI
 pip install -r requirements.txt
 
 # 设置环境变量
-export PUSH_KEY=your_pushplus_token  # Linux/Mac
+export FEISHU_WEBHOOK=https://open.feishu.cn/open-apis/bot/v2/hook/...  # Linux/Mac
 # 或
-set PUSH_KEY=your_pushplus_token  # Windows
+set FEISHU_WEBHOOK=https://open.feishu.cn/open-apis/bot/v2/hook/...  # Windows
 
 # 运行脚本
 python main.py

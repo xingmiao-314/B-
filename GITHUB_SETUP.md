@@ -40,15 +40,18 @@ git push -u origin main
 2. 在左侧菜单中找到 **Secrets and variables** → **Actions**
 3. 点击 **New repository secret**
 4. 填写信息：
-   - **Name**: `PUSH_KEY`
-   - **Secret**: 你的 PushPlus token
+   - **Name**: `FEISHU_WEBHOOK`
+   - **Secret**: 你的飞书机器人 Webhook URL（格式：`https://open.feishu.cn/open-apis/bot/v2/hook/...`）
 5. 点击 **Add secret**
 
-### 如何获取 PushPlus Token？
+### 如何配置飞书机器人？
 
-1. 访问 [PushPlus官网](http://www.pushplus.plus/)
-2. 注册/登录账号
-3. 在"个人中心" → "接口配置" 中获取你的 token
+1. 在飞书群聊中，点击右上角设置 → **群机器人** → **添加机器人**
+2. 选择 **自定义机器人**
+3. 设置机器人名称和头像
+4. **重要**：在"安全设置"中，选择"自定义关键词"，添加关键词：`AIGC`（必须包含，否则消息无法发送）
+5. 复制生成的 Webhook URL
+6. 将 Webhook URL 填入 GitHub Secrets 的 `FEISHU_WEBHOOK` 中
 
 ## 步骤 4：验证配置
 
@@ -62,14 +65,15 @@ git push -u origin main
 
 - 在 **Actions** 页面可以看到每次运行的日志
 - 如果配置正确，运行后会自动创建 `history.json` 文件
-- 如果有新视频符合条件，你会收到 PushPlus 推送
+- 如果有新视频符合条件，你会收到飞书机器人推送
 
 ## 常见问题
 
 ### Q: 推送失败怎么办？
 A: 检查以下几点：
-- `PUSH_KEY` secret 是否正确配置
-- PushPlus token 是否有效
+- `FEISHU_WEBHOOK` secret 是否正确配置
+- 飞书机器人 Webhook URL 是否有效
+- 飞书机器人安全设置中是否包含 "AIGC" 关键词（必须包含）
 - 网络连接是否正常
 
 ### Q: history.json 没有被自动提交？
