@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 项目特定
+# history.json 需要被提交，所以不忽略
+# .env 文件包含敏感信息，应该忽略
+.env
+.env.local
+
+# 临时文件
+*.log
+*.tmp
+

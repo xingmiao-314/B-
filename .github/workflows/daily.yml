@@ -1,0 +1,52 @@
+name: 每日抓取
+
+on:
+  schedule:
+    - cron: '0 1 * * *' # 每天北京时间 9:00
+  workflow_dispatch:
+
+# 【重要】给予写入权限，允许机器人修改仓库文件
+permissions:
+  contents: write
+
+jobs:
+  run_monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 下载代码
+        uses: actions/checkout@v3
+
+      - name: 安装 Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 安装依赖
+        run: pip install bilibili-api-python aiohttp
+
+      - name: 运行监控脚本
+        env:
+          PUSH_KEY: ${{ secrets.PUSH_KEY }}
+        run: python main.py
+
+      # 【新增】记忆保存步骤
+      - name: 保存运行记录 (Commit & Push)
+        run: |
+          # 配置机器人身份
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          
+          # 检查 history.json 是否存在，如果存在则添加到暂存区
+          if [ -f history.json ]; then
+            git add history.json
+            # 检查是否有变化，如果有变化才提交
+            if ! git diff --cached --quiet; then
+              git commit -m "update history record [skip ci]"
+              git push
+            else
+              echo "history.json 没有变化，跳过提交"
+            fi
+          else
+            echo "history.json 文件不存在，跳过提交"
+          fi
+

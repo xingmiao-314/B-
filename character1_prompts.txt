@@ -1,0 +1,96 @@
+================================================================================
+游戏角色卡牌AI提示词 - 第一个角色（粉色头发、紫色眼睛）
+================================================================================
+
+角色特征：pink hair, purple eyes
+
+================================================================================
+R卡提示词 (5张) - 站立平视角度
+================================================================================
+
+R卡 #1:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, standing, front view, eye level, simple composition, white lace summer dress with pink ribbon, sakura cherry blossom park in spring afternoon, smiling
+
+R卡 #2:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, standing pose, straight posture, front facing, simple composition, black leather jacket over red t-shirt and jeans, neon-lit cyberpunk city street at night, serious expression
+
+R卡 #3:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, standing, full body, front view, simple composition, blue sailor school uniform with white collar, ancient gothic cathedral interior with stained glass windows, confident look
+
+R卡 #4:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, standing position, facing forward, neutral pose, simple composition, purple velvet evening gown with silver embroidery, tropical beach with palm trees and turquoise ocean, gentle smile
+
+R卡 #5:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, standing, upright stance, front perspective, simple composition, green military-style coat with golden buttons, snow-covered mountain peak at sunrise, determined face
+
+================================================================================
+SR卡提示词 (15张) - 透视较大角度、动作多变
+================================================================================
+
+SR卡 #1:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic pose, dramatic perspective, low angle view, action scene, pink frilly maid outfit with white apron, cozy coffee shop interior with warm lighting, calm expression
+
+SR卡 #2:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, action pose, dynamic angle, three-quarter view, action scene, dark blue wizard robes with star patterns, magical forest with glowing mushrooms and fireflies, happy expression
+
+SR卡 #3:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic stance, perspective shot, tilted camera angle, action scene, white wedding dress with long train, modern art gallery with white walls and spotlights, mysterious look
+
+SR卡 #4:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, action pose, dramatic perspective, upward angle, action scene, red and gold traditional kimono with cherry blossoms, medieval castle courtyard with stone walls, bright expression
+
+SR卡 #5:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic movement, perspective view, cinematic angle, action scene, silver futuristic armor with glowing blue accents, space station observation deck with earth view, cool expression
+
+SR卡 #6:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, action stance, low angle perspective, dynamic composition, action scene, yellow sundress with sunflower patterns, japanese garden with koi pond and red bridge, smiling
+
+SR卡 #7:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic pose, dramatic angle, side view perspective, action scene, black gothic lolita dress with white lace trim, abandoned factory with rusted machinery, serious expression
+
+SR卡 #8:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, action pose, perspective shot, dynamic framing, action scene, orange sports jersey with number 7, starry night sky over desert dunes, confident look
+
+SR卡 #9:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic stance, three-quarter perspective, action view, action scene, navy blue business suit with white shirt, victorian library with tall bookshelves, gentle smile
+
+SR卡 #10:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, action pose, dramatic perspective, dynamic angle, action scene, pastel pink cardigan over white blouse, underwater coral reef with colorful fish, determined face
+
+SR卡 #11:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic movement, perspective view, action composition, action scene, emerald green ball gown with crystal decorations, autumn maple forest with red and orange leaves, calm expression
+
+SR卡 #12:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, action stance, low angle, dynamic perspective, action scene, brown leather adventurer outfit with belt pouches, futuristic laboratory with holographic displays, happy expression
+
+SR卡 #13:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic pose, dramatic angle, cinematic perspective, action scene, white nurse uniform with red cross, traditional japanese tea room with tatami mats, mysterious look
+
+SR卡 #14:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, action pose, perspective shot, dynamic framing, action scene, rainbow striped sweater with denim shorts, concert hall stage with grand piano, bright expression
+
+SR卡 #15:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, dynamic stance, three-quarter view, action perspective, action scene, golden warrior armor with red cape, sunset over city skyline from rooftop, cool expression
+
+================================================================================
+SSR卡提示词 (5张) - 在SR基础上增添性感元素
+================================================================================
+
+SSR卡 #1:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, seductive pose, dramatic perspective, low angle view, alluring stance, alluring pose, sensual, elegant, captivating, black silk evening dress with diamond necklace, luxury hotel suite with floor-to-ceiling windows overlooking city lights, mysterious look
+
+SSR卡 #2:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, sensual action pose, dynamic angle, three-quarter view, captivating, alluring pose, sensual, elegant, captivating, red satin lingerie with lace details, dimly lit bedroom with silk sheets and candlelight, gentle smile
+
+SSR卡 #3:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, alluring dynamic stance, perspective shot, seductive pose, alluring pose, sensual, elegant, captivating, white transparent chiffon dress with flower patterns, moonlit rose garden with fountain and marble statues, bright expression
+
+SSR卡 #4:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, sensual action pose, dramatic perspective, seductive angle, charming, alluring pose, sensual, elegant, captivating, purple silk qipao with golden dragon embroidery, traditional chinese courtyard with red lanterns and bamboo, confident look
+
+SSR卡 #5:
+high quality, detailed, beautiful, professional, masterpiece, best quality, ultra detailed, 8k resolution, pink hair, purple eyes, character card, game character, anime style, illustration, alluring dynamic movement, perspective view, seductive composition, alluring pose, sensual, elegant, captivating, blue mermaid-style evening gown with sequins, luxury yacht deck at sunset with champagne and ocean view, smiling
+
+================================================================================
+生成完成！
+================================================================================
