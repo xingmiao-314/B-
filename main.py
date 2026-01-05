@@ -136,12 +136,14 @@ async def filter_content(video_data, time_config):
     return True
 
 async def send_notification(content, title_prefix):
-    """发送飞书消息"""
+    """发送飞书消息（修复版本：检查响应体中的 code 字段）"""
     webhook_url = os.environ.get("FEISHU_WEBHOOK")
-    if not webhook_url: return
+    if not webhook_url:
+        print("❌ FEISHU_WEBHOOK 未设置")
+        return False
     
-    # 简单的 Markdown 格式化
-    text_content = f"**{title_prefix}**\n\n" + content \
+    # 格式化内容
+    formatted_content = content \
         .replace("<h3>", "").replace("</h3>", "\n") \
         .replace("<ul>", "").replace("</ul>", "") \
         .replace("<li style='margin-bottom:8px'>", "- ") \
@@ -150,6 +152,13 @@ async def send_notification(content, title_prefix):
         .replace("<b>", "**").replace("</b>", "**") \
         .replace("<a href='", "[").replace("'>", "](") \
         .replace("</a>", ")")
+    
+    # 确保消息包含 AIGC 关键词（飞书机器人安全设置要求）
+    # 如果内容中不包含 AIGC，在标题中添加
+    if "AIGC" not in formatted_content.upper() and "AIGC" not in title_prefix.upper():
+        title_prefix = f"{title_prefix} (AIGC)"
+    
+    text_content = f"**{title_prefix}**\n\n" + formatted_content
 
     data = {
         "msg_type": "markdown", # 改用 markdown 格式更美观
@@ -158,9 +167,45 @@ async def send_notification(content, title_prefix):
         }
     }
     
-    async with aiohttp.ClientSession() as session:
-        async with session.post(webhook_url, json=data) as resp:
-            print(f"推送状态: {resp.status}")
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                webhook_url,
+                json=data,
+                timeout=aiohttp.ClientTimeout(total=10)
+            ) as resp:
+                # 1. 检查 HTTP 状态码
+                http_status = resp.status
+                
+                # 2. 读取响应体（关键！）
+                try:
+                    response_data = await resp.json()
+                except:
+                    response_text = await resp.text()
+                    print(f"❌ 响应不是有效的JSON (HTTP {http_status}): {response_text}")
+                    return False
+                
+                # 3. 检查飞书 API 的实际状态码
+                # code = 0 表示成功，code != 0 表示失败
+                code = response_data.get("code", -1)
+                msg = response_data.get("msg", "")
+                
+                if code == 0:
+                    print(f"✅ 推送成功 (HTTP {http_status}, code {code})")
+                    return True
+                else:
+                    print(f"❌ 推送失败 (HTTP {http_status}, code={code}): {msg}")
+                    print(f"   响应体: {json.dumps(response_data, ensure_ascii=False)}")
+                    return False
+                    
+    except asyncio.TimeoutError:
+        print(f"❌ 推送超时")
+        return False
+    except Exception as e:
+        print(f"❌ 推送异常: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
 
 async def main():
     # 1. 获取今日策略 (周报 vs 日报)
@@ -197,8 +242,11 @@ async def main():
             msg += f"<li style='margin-bottom:8px'>[{time_str}] <b>{v['author']}</b>: <a href='https://www.bilibili.com/video/{v['bvid']}'>{v['title']}</a></li>"
         msg += "</ul>"
         
-        await send_notification(msg, config['title'])
-        print(f"推送成功！共 {len(valid_videos)} 条")
+        success = await send_notification(msg, config['title'])
+        if success:
+            print(f"推送成功！共 {len(valid_videos)} 条")
+        else:
+            print(f"推送失败！共 {len(valid_videos)} 条（请查看上方错误信息）")
     else:
         print("没有符合条件的新视频。")
 
