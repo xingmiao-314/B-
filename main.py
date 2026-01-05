@@ -156,8 +156,9 @@ async def send_notification(content, title_prefix):
     # 确保消息包含飞书机器人要求的关键词（安全设置要求）
     # 飞书机器人关键词：ComfyUI, Stable Diffusion, Flux, Sora, Runway, B站, AIGC, LoRA, 工作流, 模型
     # 在消息开头明确添加关键词，确保飞书机器人能识别
-    # 使用 "B站" 和 "AIGC" 作为前缀，因为这两个词最通用
-    text_content = f"**{title_prefix}**\n\nB站 AIGC 相关内容：\n\n" + formatted_content
+    # 注意：关键词必须独立存在，不能是其他词的一部分
+    # 使用 "B站" 和 "AIGC" 作为独立的关键词，放在消息最开始（Markdown 格式外）
+    text_content = f"B站 AIGC\n\n**{title_prefix}**\n\n" + formatted_content
 
     data = {
         "msg_type": "markdown", # 改用 markdown 格式更美观
