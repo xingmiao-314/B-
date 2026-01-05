@@ -37,7 +37,7 @@ TARGET_UIDS = [
 
 KEYWORDS = ["ComfyUI", "Stable Diffusion", "Flux", "Sora", "Runway", "Luma", "AIGC", "LoRA", "工作流", "模型"]
 HISTORY_DAYS = 14 # 记忆保留时间稍微拉长一点，防止周报重复
-CONCURRENCY_LIMIT = 3
+CONCURRENCY_LIMIT = 2  # 降低并发数，避免触发风控
 # ===========================================
 
 class HistoryManager:
@@ -95,19 +95,47 @@ def get_time_config():
             "now": current_timestamp
         }
 
-async def fetch_videos_from_up(uid, semaphore):
+async def fetch_videos_from_up(uid, semaphore, retry_count=3):
+    """获取UP主视频，带重试机制"""
     async with semaphore:
-        try:
-            # print(f"正在检查 UID: {uid} ...") 
-            # 注释掉上一行，减少日志刷屏
-            u = user.User(uid=uid)
-            # 周报模式下，5条可能不够，改为获取最近 10 条
-            videos = await u.get_videos(ps=10) 
-            await asyncio.sleep(0.5) 
-            return videos.get('list', {}).get('vlist', [])
-        except Exception as e:
-            print(f"UID {uid} 获取失败: {e}")
-            return []
+        for attempt in range(retry_count):
+            try:
+                u = user.User(uid=uid)
+                # 周报模式下，5条可能不够，改为获取最近 10 条
+                videos = await u.get_videos(ps=10) 
+                
+                # 检查是否有错误
+                if isinstance(videos, dict) and videos.get('code') == -352:
+                    # 风控错误，等待更长时间后重试
+                    wait_time = (attempt + 1) * 3  # 3秒、6秒、9秒
+                    print(f"⚠️  UID {uid} 触发风控，等待 {wait_time} 秒后重试... (尝试 {attempt + 1}/{retry_count})")
+                    await asyncio.sleep(wait_time)
+                    continue
+                
+                # 成功获取数据
+                await asyncio.sleep(1)  # 增加延迟，避免触发风控
+                return videos.get('list', {}).get('vlist', [])
+                
+            except Exception as e:
+                error_msg = str(e)
+                # 检查是否是风控错误
+                if '-352' in error_msg or '风控' in error_msg:
+                    wait_time = (attempt + 1) * 3
+                    if attempt < retry_count - 1:
+                        print(f"⚠️  UID {uid} 触发风控，等待 {wait_time} 秒后重试... (尝试 {attempt + 1}/{retry_count})")
+                        await asyncio.sleep(wait_time)
+                        continue
+                    else:
+                        print(f"❌ UID {uid} 获取失败（风控限制）: {error_msg}")
+                        return []
+                else:
+                    # 其他错误，直接返回
+                    print(f"❌ UID {uid} 获取失败: {error_msg}")
+                    return []
+        
+        # 所有重试都失败
+        print(f"❌ UID {uid} 获取失败，已重试 {retry_count} 次")
+        return []
 
 async def filter_content(video_data, time_config):
     """【过滤层】增加了严格的时间判断"""
@@ -215,14 +243,30 @@ async def main():
     # 1. 获取今日策略 (周报 vs 日报)
     config = get_time_config()
     
+    print(f"开始监控 {len(TARGET_UIDS)} 个UP主...")
+    print(f"并发限制: {CONCURRENCY_LIMIT}")
+    print("")
+    
     semaphore = asyncio.Semaphore(CONCURRENCY_LIMIT)
     tasks = [fetch_videos_from_up(uid, semaphore) for uid in TARGET_UIDS]
-    results = await asyncio.gather(*tasks)
+    results = await asyncio.gather(*tasks, return_exceptions=True)
     
     valid_videos = []
+    success_count = 0
+    fail_count = 0
     
-    for video_list in results:
-        for v in video_list:
+    for i, result in enumerate(results):
+        if isinstance(result, Exception):
+            fail_count += 1
+            print(f"❌ UID {TARGET_UIDS[i]} 获取异常: {result}")
+            continue
+        
+        if not result:
+            fail_count += 1
+            continue
+        
+        success_count += 1
+        for v in result:
             bvid = v['bvid']
             
             # 记忆去重
@@ -234,6 +278,8 @@ async def main():
                 print(f"发现新视频：{v['title']}")
                 valid_videos.append(v)
                 memory.add(bvid)
+    
+    print(f"\n监控完成：成功 {success_count} 个，失败 {fail_count} 个")
 
     if valid_videos:
         # 按发布时间倒序排列 (新的在前)
